@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        {% load static %}
+        <!-- COMENTARIOS GENERALES -->
+        <!-- intentar usar los Growing spinner con funcion de javaScript de tiempo -->
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Document</title>
+        <!-- CSS DE BOOTSTRAP -->
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+        <!-- INYECCION DE CSS -->
+        <link rel="stylesheet" href="{% static 'app/CSS/inicio.css' %}" >
+    </head>
+    <body>
+        
+        <!-- NAVBAR -->
+        <nav class="navbar navbar-expand-lg " style="padding: 0; flex-wrap: nowrap; background-color: #074469; ">
+
+            <img src="{% static 'app/img/Barrita.png' %}" style="width: 23px;">
+            <div class="container-fluid" >
+            <a class="navbar-brand" href="#" style="color: white;">Navbar</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="#" style="color: white;">Inicio</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#zonaPortafolio" style="color: white;">Proyectos</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#boton" style="color: white;">Iniciar Sesion</a>
+                </li>
+                
+                </ul>
+            </div>
+            </div>
+        </nav>
+
+        <!-- INICIO DE PAGINA -->
+        <div class="Inicio">
+
+            <img class="img-fluid" src="{% static 'app/img/svm.jpg' %}" style="width: auto;">
+            <div class="textosInicio">
+                <p class="tituloInicio">Portal de Iniciativas Estudiantiles</p>
+                <p class="subtituloInicio">Universidad Santa Maria - Sede Viña del Mar</p>
+            </div>
+            
+            <button class="btn btn-warning botonInicio" type="button" >Ver Iniciativas</button>
+            
+            <a href="#zonaPortafolio" class="btn btn-warning botonInicio">Ver Iniciativas</a>
+
+        </div>
+        
+        <!-- ZONA DE PORTAFOLIO -->
+
+        <!-- Filtro por patrocinio -->
+        <div class="">
+            <form action="" method="get" class="">
+            <select title="filtro" name="filtro" id="" onchange="this.form.submit()">
+                <option value="">Filtrar</option>
+                <option value="con">Con Patrocinio</option>
+            <option value="sin">Sin Patrocinio</option>
+            <option value="Todos">Todos</option>
+            </select>
+            </form>
+        </div>
+  
+  
+        <!-- TABLA DE PROYECTOS -->
+        <div class="col p-0 tablet">
+            <table class="">
+            <h5 class="text-center" id="zonaPortafolio" style="color: aliceblue;">Portafolio</h5>
+                <h2 class="text-center tabletxt">Proyectos Presentados</h2>
+                <thead class="table">
+                    <tr>
+                        <th scope="col">Nombre Proyecto</th>
+                        <th scope="col">Estudiante</th>
+                        <th scope="col">Tema</th>
+                        <th scope="col">Profesor</th>
+                        <th scope="col">Patrocinio</th>
+        
+                    </tr>
+                </thead>
+                <tbody class="table-group-divider">
+                    {% for proyecto in Proyectos %}
+                        <tr>
+                            <th scope="row">{{ proyecto.nombre_proyecto }}</th>
+                            <td>{{ proyecto.estudiante }}</td>
+                            <td>{{ proyecto.tema }}</td>
+                            <td>{{ proyecto.profesorPatrocinador.username }}</td>
+                            <td>
+                                {% if proyecto.patrocinio %}
+                                Si
+                                {% else %}
+                                No
+                                {% endif %}
+                            </td>
+                            </tr>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Profesor hace de sponsor a un proyecto  -->
+        <div class="">
+        {% load crispy_forms_tags %}
+
+            <h1>Sponsor</h1>
+
+            <form method="post" class="">
+                {% csrf_token %}
+                {{ patrocinar_form | crispy }}
+                <button type="submit">Submit</button>
+            </form>
+        </div>
+
+        <!-- ZONA DE INICIO DE SESION -->
+        {% load static %}
+        {% load crispy_forms_tags %}
+
+        <div class="">
+            <form id="formulario" action="" method="post" class="">
+                
+                <h1 class="title text-center">Sign up</h1>
+                {% csrf_token %}
+                {{ login_form | crispy }}
+                {% if mensaje %}
+                <p >{{ mensaje }}</p>
+                {% endif %}
+                <button type="submit" class="submitBtn">Iniciar sesion</button>
+            </form>
+        </div>
+            
+    <div class="formulario">
+        <h1>Inicio de sesion</h1>
+        {% load static %}
+        {% load crispy_forms_tags %}
+        <div class="signupFrm">
+          <form id="formulario" action="" method="post" class="formLogin">
+              {% csrf_token %}
+        
+              <img src="{% static 'app\img\usuario.png' %}" class="rounded mx-auto d-block" width="230" height="200" alt="" style="background-color: #e5b300; margin-bottom: 5%;">
+        
+              <h1 class="title text-center">Sign up</h1>
+              
+              {{ login_form | crispy }}
+              {% if mensaje %}
+              <p >{{ mensaje }}</p>
+              {% endif %}
+              <button type="submit">Login</button>
+        
+              <button type="submit" id="boton" class="submit">Iniciar sesion</button>
+          </form>
+          </div>
+    </div>
+
+        <!-- creacion de proyecto -->
+
+        <div class="">
+            <div class="">
+            {% load crispy_forms_tags %}
+
+                <form id="formulario" action="" method="post" class="">
+                    {% csrf_token %}
+
+                    <h1 class="text-center">Crear Proyecto</h1>
+                    
+                    {{ crearProyecto|crispy }}
+
+                    <button type="submit" class="submitBtn">Crear Proyecto</button>
+                </form>
+            </div>
+
+        <!-- Modify Project Form -->
+        {% if proyecto_modificado %}
+        <div class="">
+            <p>Proyecto modificado exitosamente: {{ proyecto_modificado.nombre_proyecto }}</p>
+        </div>
+        {% else %}
+        <div class="">
+        {% load crispy_forms_tags %}
+            
+            <form method="post" class="">
+
+            <h1 class="text-center">Modificar Proyecto</h1>
+
+                {% csrf_token %}
+                {{ modificar_proyecto_form | crispy }}
+
+                <button type="submit" class="submitBtn">Guardar Modificaciones</button>
+            </form>
+        </div>
+        {% endif %}
+        </div>
+
+        <!-- JS DE BOOTSTRAP -->
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    </body>
+</html>
